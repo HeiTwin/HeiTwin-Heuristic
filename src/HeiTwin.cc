@@ -95,7 +95,7 @@ std::vector<unsigned int> bfs_ordering(graph &g, unsigned int start = 0) {
       }
     }
   }
-  for (int i = 1; i <= g.adj_list.size(); i++) {
+  for (int i = 1; i < g.adj_list.size(); i++) {
     node *nd = &g.adj_list[i];
     if (nd->active && !visited[nd->id]) {
       queue.push_back(nd);
@@ -133,10 +133,6 @@ int main(int argc, char **argv) {
 
   reduce<DegreeZeroReduction>(g);
   reduce<DegreeOneReduction>(g);
-  // if (g.n < 100000) {
-  // LOG("Running fast twins");
-  // reduce<TwinReduction>(g, 0, true); // fast twins
-  // }
   int old_n = g.n;
 
   // Red deg limit for small graphs
@@ -160,27 +156,9 @@ int main(int argc, char **argv) {
     g.uncontract(old_n - 1);
   }
 
-  // std::vector<unsigned int> degree_sum_order;
-  // for (node *nd = g.get_first_node(); nd; nd = nd->next) {
-  //   degree_sum_order.push_back(nd->id);
-  // }
-  // std::vector<unsigned int> degrees;
-  // degrees.resize(g.adj_list.size(), 0);
-  // for (node *nd = g.get_first_node(); nd; nd = nd->next) {
-  //   for (auto &&e : *nd) {
-  //     degrees[nd->id] += e.target;
-  //   }
-  //   // degrees[nd->id] /= nd->deg; // average
-  // }
-  // std::sort(degree_sum_order.begin(), degree_sum_order.end(),
-  //           [&](const unsigned int &a, const unsigned int &b) -> bool {
-  //             return degrees[a] < degrees[b];
-  //           });
-
   std::vector<unsigned int> bfs_ordering_vector = bfs_ordering(g);
-  LOG("n: " << g.n << ", order size: " << bfs_ordering_vector.size());
-  std::vector<unsigned int> bfs_ordering2_vector =
-      bfs_ordering(g, bfs_ordering_vector.back());
+  // std::vector<unsigned int> bfs_ordering2_vector =
+  //     bfs_ordering(g, bfs_ordering_vector.back());
 
   int k = 3;
   if (g.n < 20000)
@@ -195,16 +173,6 @@ int main(int argc, char **argv) {
     update_objective(g);
     // local_search(g, k);
     g.uncontract(old_n - 1);
-
-    // degree order
-    // std::list<unsigned int> order_list;
-    // for (unsigned int& x : degree_sum_order) {
-    //   order_list.push_back(x);
-    // }
-    // TreeContractDeluxeOrder::solve(g, order_list, k);
-    // LOG("Twin width (degree order): " << g.twin_width);
-    // update_objective(g);
-    // g.uncontract(old_n - 1);
 
     std::list<unsigned int> bfs_order;
     // bfs ordering

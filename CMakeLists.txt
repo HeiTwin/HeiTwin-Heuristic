@@ -8,7 +8,7 @@ include_directories(
   ./src
 )
 
-add_compile_definitions(ENABLE_LOG)
+# add_compile_definitions(ENABLE_LOG)
 
 add_library(utils src/utils.cc)
 add_library(graph src/data_structures/graph.cc)
