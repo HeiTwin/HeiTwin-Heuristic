@@ -4,6 +4,8 @@
 HeiTwin-Heuristic is a heuristic solver for the twin-width problem. It takes part in the [PACE Challenge 2023](https://pacechallenge.org/2023/).
 
 ## Description
+A detailed description can be found in the [Paper](paper.pdf).
+
 HeiTwin-Heuristic implements a greedy sliding window algorithm. First the `k` first nodes of the graph are considered. From these `k` nodes those two are contracted, whose contraction leads to the least red degree at any node in the neighborhood. Then, the next `k` nodes are considered. If the last nodes of the graph are reached, the algorithm starts over with the first nodes again, until the graph is contracted.
 
 This strategy can use different node orderings, which will lead to very different results. The natural order, as well as a BFS ordering, turned out to lead to a low twin width.
